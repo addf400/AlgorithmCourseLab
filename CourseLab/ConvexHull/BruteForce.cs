@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConvexHull
+namespace CourseLab.ConvexHull
 {
-    public class BruteForce : Solution
+    public class BruteForce : ConvexHullSolution
     {
         public BruteForce(List<Point> points) : base(points)
         {
