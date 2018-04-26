@@ -48,6 +48,7 @@
     <Compile Include="ConvexHull\BruteForce.cs" />
     <Compile Include="ConvexHull\DataGen.cs" />
     <Compile Include="ConvexHull\DataStruct.cs" />
+    <Compile Include="ConvexHull\GrahamScan.cs" />
     <Compile Include="ConvexHull\Solution.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
