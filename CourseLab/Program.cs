@@ -21,12 +21,12 @@ namespace CourseLab
         static void ConvexHull()
         {
             string root = @"C:\Users\addf4\Desktop\Code\AlgrithmCouseLabData";
-            var dataSet = CourseLab.ConvexHull.DataGen.Run(root, new int[] { 10, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 10000 });
+            var dataSet = CourseLab.ConvexHull.DataGen.Run(root, new int[] { 3000, 10, 15, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 10000 });
 
             foreach (var dataCase in dataSet)
             {
                 var points = Point.LoadPointsFromFile(dataCase.Item1);
-                var bruteForce = new GrahamScan(points);
+                var bruteForce = new DivAndConquer(points);
                 var ans = bruteForce.Run();
                 Point.SavePointsToFile(ans.Item1, Path.Combine(root, String.Format("Ans-{0}.txt", dataCase.Item2)));
                 Console.WriteLine(ans.Item2);

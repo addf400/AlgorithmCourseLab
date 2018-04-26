@@ -87,10 +87,35 @@ namespace CourseLab.ConvexHull
             return A.x * B.y - A.y * B.x;
         }
 
+        public double Ang
+        {
+            get
+            {
+                double t = y / x;
+                return t;
+            }
+        }
+
+        public static double FLAG;
+
+        public int Direction
+        {
+            get
+            {
+                if (x >= 0)
+                    return 1;
+                if (Ang < FLAG)
+                    return 2;
+                return 0;
+            }
+        }
+
         public int CompareTo(object obj)
         {
             var p = obj as Vector;
-            return (y / x).CompareTo(p.y / p.x);
+            if (Direction != p.Direction)
+                return Direction.CompareTo(p.Direction);
+            return Ang.CompareTo(p.Ang);
         }
 
         public override string ToString()
