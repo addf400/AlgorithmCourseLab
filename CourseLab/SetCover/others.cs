@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CourseLab.SetCover
 {
-    public abstract class SerCoverSolution : Solution<List<int[]>>
+    public abstract class SetCoverSolution : Solution<List<int[]>>
     {
         public List<int[]> sets;
         public int range;
 
-        public SerCoverSolution(string setfile, int range)
+        public SetCoverSolution(string setfile, int range)
         {
             this.range = range;
 

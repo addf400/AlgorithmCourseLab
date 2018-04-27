@@ -144,5 +144,10 @@ namespace CourseLab.ConvexHull
         {
             return GetAns(points);
         }
+
+        public override string GetMethodName()
+        {
+            return "DivAndConquer";
+        }
     }
 }

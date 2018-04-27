@@ -36,5 +36,10 @@ namespace CourseLab.ConvexHull
 
             return stack.ToList().GetRange(0, top);
         }
+
+        public override string GetMethodName()
+        {
+            return "GrahamScan";
+        }
     }
 }

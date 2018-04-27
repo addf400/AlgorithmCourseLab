@@ -17,5 +17,7 @@ namespace CourseLab.ConvexHull
         {
             this.points = points;
         }
+
+        public abstract string GetMethodName();
     }
 }

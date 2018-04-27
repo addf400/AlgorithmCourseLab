@@ -75,5 +75,11 @@ namespace CourseLab.ConvexHull
             ans.Item1.AddRange(ans.Item2);
             return ans.Item1;
         }
+
+
+        public override string GetMethodName()
+        {
+            return "BruteForce";
+        }
     }
 }
