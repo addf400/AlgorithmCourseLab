@@ -12,6 +12,10 @@ namespace CourseLab.ConvexHull
         {
         }
 
+        /// <summary>
+        /// 判断P0与这三个点是否会存在某个点在其他三个点构成的三角形中
+        /// 以P0为起点做其他三个点的极角排序，用面积法判断
+        /// </summary>
         int Judge(Tuple<Vector, int>[] _vectors)
         {
             var vectors = _vectors.OrderBy(_ => _).ToArray();
@@ -28,6 +32,7 @@ namespace CourseLab.ConvexHull
         {
             var p = points.OrderBy(_ => _).ToArray();
             var abandon = new bool[Count];
+            // 标记抛弃的点
             var vectors = new Tuple<Vector, int>[3];
             for (int i = 1; i < Count; ++i)
             {
@@ -44,6 +49,7 @@ namespace CourseLab.ConvexHull
                     }
                 }
             }
+            // O(n^3)的枚举
 
             var forward = new List<Point>();
             var backward = new List<Point>();
@@ -55,6 +61,7 @@ namespace CourseLab.ConvexHull
             var bottom = selectPoints.Min();
             var top = selectPoints.Max();
             var splitVector = top - bottom;
+            // 找到凸包的两个端点，最左边和最右边的两个点
 
             foreach (var item in selectPoints)
             {
@@ -63,6 +70,7 @@ namespace CourseLab.ConvexHull
                 else
                     backward.Add(item);
             }
+            // 用向量的叉积判断方向，分配到两个序列中
 
             backward.Reverse();
 

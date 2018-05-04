@@ -98,6 +98,9 @@ namespace CourseLab.ConvexHull
 
         public static double FLAG;
 
+        /// <summary>
+        /// 以二、三象限的某个点作为基准划分区域
+        /// </summary>
         public int Direction
         {
             get
@@ -110,6 +113,11 @@ namespace CourseLab.ConvexHull
             }
         }
 
+        /// <summary>
+        /// 极角比较先看Direction，再看y/x
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public int CompareTo(object obj)
         {
             var p = obj as Vector;

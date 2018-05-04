@@ -44,7 +44,7 @@ namespace CourseLab.SetCover
                             maxSetIdx = i;
                         }
                     }
-
+                // 找到一个覆盖最多的
                 if (maxSetIdx == -1)
                     throw new InvalidProgramException();
 
@@ -56,6 +56,7 @@ namespace CourseLab.SetCover
                         used[item] = true;
                     }
                 }
+                // 覆盖
 
                 ans.Add(sets[maxSetIdx]);
                 setLabel[maxSetIdx] = true;
@@ -64,7 +65,10 @@ namespace CourseLab.SetCover
             return ans;
         }
     }
-
+    
+    /// <summary>
+    /// 因为最大只支持1000个变量，所以弃用
+    /// </summary>
     public class LP_SetCover : SetCoverSolution
     {
         public LP_SetCover(string setfile, int range) : base(setfile, range)
@@ -142,6 +146,9 @@ namespace CourseLab.SetCover
         }
     }
 
+    /// <summary>
+    /// 利用线性规划近似求解集合覆盖问题
+    /// </summary>
     public class LP2_SetCover : SetCoverSolution
     {
         public LP2_SetCover(string setfile, int range) : base(setfile, range)
@@ -162,6 +169,7 @@ namespace CourseLab.SetCover
             for (int i = 0; i < sets.Count; ++i)
             {
                 model.AddVariable("x_" + i.ToString(), 1.0, 0, 1);
+                // 设定变量
 
                 foreach (var item in sets[i])
                 {
@@ -183,6 +191,7 @@ namespace CourseLab.SetCover
                     vector[item] = 1.0;
 
                 model.AddLinearConstraint("C_" + rangeCount++, Vector.Create(vector), 1.0, double.PositiveInfinity);
+                // 添加约束
             }
 
             var x = model.Solve();
@@ -193,6 +202,7 @@ namespace CourseLab.SetCover
                 double value = x[i];
                 if (sets[i].Any(item => value > 1 / itemToSets[item].Count))
                     ans.Add(sets[i]);
+                // 转换为一个整数可行解
             }
 
             return ans;

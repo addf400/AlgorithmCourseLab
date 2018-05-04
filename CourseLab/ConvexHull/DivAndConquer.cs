@@ -19,6 +19,13 @@ namespace CourseLab.ConvexHull
             list[j] = tmp;
         }
 
+        /// <summary>
+        /// 归并排序的方法合并两个有序序列 O(n)
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="o"></param>
+        /// <returns></returns>
         IEnumerable<Point> MergePointList(List<Point> left, List<Point> right, Point o)
         {
             int l = 0, r = 0;
@@ -36,6 +43,12 @@ namespace CourseLab.ConvexHull
                 yield return right[r++];
         }
 
+        /// <summary>
+        /// 合并左右区间的凸包
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         List<Point> Conquer(List<Point> left, List<Point> right)
         {
             Point o = GetMeanPoint(left);
@@ -44,9 +57,11 @@ namespace CourseLab.ConvexHull
             for (int i = 1; i < left.Count; ++i)
                 if (left[minXIdx].x > left[i].x)
                     minXIdx = i;
+            // 找到左侧X最小的点
 
             var fixedLeft = left.GetRange(minXIdx, left.Count - minXIdx);
             fixedLeft.AddRange(left.GetRange(0, minXIdx));
+            // 修正序列顺序
 
             int minAngIdx = 0;
             int maxAngIdx = 0;
@@ -57,6 +72,7 @@ namespace CourseLab.ConvexHull
                 if ((right[maxAngIdx] - o).CompareTo(right[i] - o) < 0)
                     maxAngIdx = i;
             }
+            // 把右边凸包分成两个有序序列
 
             List<Point> a = null;
             List<Point> b = null;
@@ -75,6 +91,7 @@ namespace CourseLab.ConvexHull
             b.Reverse();
 
             Vector.FLAG = (fixedLeft.First() - o).Ang;
+            // 设定排序极角起点
             var p = MergePointList(fixedLeft.GetRange(1, fixedLeft.Count - 1), MergePointList(a, b, o).ToList(), o).ToList();
 
             var stack = new Point[p.Count + 2];
@@ -87,10 +104,18 @@ namespace CourseLab.ConvexHull
                     --top;
                 stack[top++] = p[i];
             }
+            // 调用GrahamScan算法
 
             return stack.ToList().GetRange(0, top - 1);
         }
 
+        /// <summary>
+        /// 利用快速排序的思想在O(n)的时间内找到第k大，并划分两个区域
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
+        /// <param name="k"></param>
         void FindMid(List<Point> p, int l, int r, int k)
         {
             if (l >= r)
@@ -116,6 +141,11 @@ namespace CourseLab.ConvexHull
                 FindMid(p, left + 1, r, k);
         }
 
+        /// <summary>
+        /// 找到凸包的中心点
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public Point GetMeanPoint(List<Point> p)
         {
             double _x = p.Sum(_ => _.x) / p.Count;
@@ -123,6 +153,11 @@ namespace CourseLab.ConvexHull
             return  new Point(_x, _y);
         }
 
+        /// <summary>
+        /// 分治算法主体
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         List<Point> GetAns(List<Point> p)
         {
             if (p.Count <= 3)
@@ -130,12 +165,15 @@ namespace CourseLab.ConvexHull
                 var c = GetMeanPoint(p);
                 return p.OrderBy(_ => _ - c).ToList();
             }
+            // 小于三个点直接返回
 
             int mid = (p.Count - 1) / 2;
             FindMid(p, 0, p.Count - 1, p.Count / 2);
+            // 以中位数划分为两个
 
             var left = GetAns(p.GetRange(0, mid + 1));
             var right = GetAns(p.GetRange(mid + 1, p.Count - mid - 1));
+            // 两个
 
             return Conquer(left, right);
         }

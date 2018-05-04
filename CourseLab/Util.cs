@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace CourseLab
 {
+    /// <summary>
+    /// 最基础的Solution类，封装时间计时功能，以及规定方法名
+    /// </summary>
+    /// <typeparam name="T">解的描述</typeparam>
     public abstract class Solution<T>
     {
         abstract protected T Solve();
