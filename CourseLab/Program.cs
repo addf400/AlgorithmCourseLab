@@ -20,8 +20,15 @@ namespace CourseLab
 
         static void ConvexHull()
         {
-            string root = @"C:\Users\addf4\Desktop\Code\AlgrithmCouseLabData";
-            var dataSet = CourseLab.ConvexHull.DataGen.Run(root, new int[] { 10, 15, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000 });
+            string root = Path.Combine("..", "Data");
+            StreamWriter logger = new StreamWriter(Path.Combine(root, "ch.log"));
+
+            var dataRange = new List<int>();
+            for (int i = 1000; i <= 20000; i += 1000)
+            {
+                dataRange.Add(i);
+            }
+            var dataSet = CourseLab.ConvexHull.DataGen.Run(root, dataRange);
 
             foreach (var dataCase in dataSet)
             {
@@ -34,23 +41,27 @@ namespace CourseLab
                 foreach (var solver in solvers)
                 {
                     var ans = solver.Run();
+
                     Point.SavePointsToFile(ans.Item1, 
                         Path.Combine(root, String.Format("Ans-{0}-{1}.txt", solver.GetMethodName(), dataCase.Item2)));
-                    Console.WriteLine(solver.GetMethodName());
-                    Console.WriteLine("N = " + dataCase.Item2);
-                    Console.WriteLine(ans.Item2);
-                    Console.WriteLine(ans);
+
+                    logger.WriteLine("{0}\t{1}\t{2}\t{3}",
+                        solver.GetMethodName(), dataCase.Item2, ans.Item2, ans.Item1.Count);
+
+                    Console.WriteLine("Solution: [{0}]\tN: {1}\tTime consume: {2}\tAns: {3}", 
+                        solver.GetMethodName(), dataCase.Item2, ans.Item2, ans.Item1.Count);
                 }
             }
 
             Console.ReadLine();
+            logger.Close();
         }
 
         static void SetCover()
         {
-            string root = @"Data";
-            if (!Directory.Exists(root))
-                Directory.CreateDirectory(root);
+            string root = Path.Combine("..", "Data");
+            StreamWriter logger = new StreamWriter(Path.Combine(root, "sc.log"));
+
             var dataSet = CourseLab.SetCover.DataGen.Run(root, new List<Tuple<int, int>>()
             {
                 new Tuple<int, int>(100, 100),
@@ -68,14 +79,17 @@ namespace CourseLab
                 foreach (var solver in solvers)
                 {
                     var ans = solver.Run();
-                    Console.WriteLine(ans.Item2);
-                    Console.WriteLine(ans.Item1.Count);
+
+                    logger.WriteLine("{0}\t{1}\t{2}\t{3}",
+                        solver.GetMethodName(), dataCase.Item2, ans.Item2, ans.Item1.Count);
+
+                    Console.WriteLine("Solution: [{0}]\tN: {1}\tTime consume: {2}\tAns: {3}",
+                        solver.GetMethodName(), dataCase.Item2, ans.Item2, ans.Item1.Count);
                 }
             }
 
             Console.ReadLine();
-
-            Console.WriteLine();
+            logger.Close();
         }
     }
 }

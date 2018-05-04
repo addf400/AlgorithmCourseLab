@@ -32,40 +32,6 @@ namespace CourseLab.SetCover
         }
     }
 
-    public static class others
-    {
-        public static Int32 GetCardinality(this BitArray bitArray)
-        {
-
-            Int32[] ints = new Int32[(bitArray.Count >> 5) + 1];
-
-            bitArray.CopyTo(ints, 0);
-
-            Int32 count = 0;
-
-            // fix for not truncated bits in last integer that may have been set to true with SetAll()
-            ints[ints.Length - 1] &= ~(-1 << (bitArray.Count % 32));
-
-            for (Int32 i = 0; i < ints.Length; i++)
-            {
-                Int32 c = ints[i];
-
-                // magic (http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel)
-                unchecked
-                {
-                    c = c - ((c >> 1) & 0x55555555);
-                    c = (c & 0x33333333) + ((c >> 2) & 0x33333333);
-                    c = ((c + (c >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
-                }
-
-                count += c;
-            }
-
-            return count;
-
-        }
-    }
-
     public class DataGen
     {
         public const int N = 20;
@@ -149,6 +115,9 @@ namespace CourseLab.SetCover
 
         public static IEnumerable<Tuple<string, int, int>> Run(string root, IEnumerable<Tuple<int, int>> parameters)
         {
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
+
             foreach (var parameter in parameters)
             {
                 string filename = Path.Combine(root, String.Format("{0}-sets.range-{1}.txt", parameter.Item2, parameter.Item1));

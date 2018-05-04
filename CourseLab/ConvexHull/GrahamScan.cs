@@ -34,7 +34,7 @@ namespace CourseLab.ConvexHull
                 stack[top++] = p[i];
             }
 
-            return stack.ToList().GetRange(0, top);
+            return stack.ToList().GetRange(0, top - 1);
         }
 
         public override string GetMethodName()

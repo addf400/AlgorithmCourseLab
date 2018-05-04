@@ -16,5 +16,7 @@ namespace CourseLab
             var result = Solve();
             return new Tuple<T, TimeSpan>(result, DateTime.Now - startTime);
         }
+
+        public abstract string GetMethodName();
     }
 }

@@ -29,6 +29,9 @@ namespace CourseLab.ConvexHull
 
         public static IEnumerable<Tuple<string, int>> Run(string root, IEnumerable<int> ranges)
         {
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
+
             foreach (var range in ranges)
             {
                 string filename = Path.Combine(root, String.Format("{0}-points.XRange-{1}.YRange-{2}.txt", range, XRange, YRange));

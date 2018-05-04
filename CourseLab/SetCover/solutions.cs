@@ -16,6 +16,11 @@ namespace CourseLab.SetCover
         {
         }
 
+        public override string GetMethodName()
+        {
+            return "GreedySetCover";
+        }
+
         protected override List<int[]> Solve()
         {
             var used = new BitArray(range);
@@ -64,6 +69,11 @@ namespace CourseLab.SetCover
     {
         public LP_SetCover(string setfile, int range) : base(setfile, range)
         {
+        }
+
+        public override string GetMethodName()
+        {
+            return "Linear programming for set cover, solution 1";
         }
 
         protected override List<int[]> Solve()
@@ -136,6 +146,11 @@ namespace CourseLab.SetCover
     {
         public LP2_SetCover(string setfile, int range) : base(setfile, range)
         {
+        }
+
+        public override string GetMethodName()
+        {
+            return "Linear programming for set cover, solution 2";
         }
 
         protected override List<int[]> Solve()
